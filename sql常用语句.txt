@@ -1,0 +1,79 @@
+以下是总结的mysql的常用语句，欢迎指正和补充~
+
+
+常用：
+
+delete from 表名 where id =数据id;        //删除id所在整行
+insert into 表名 （a,'名称'b,c...);              //插入整行数据
+
+参考：
+删除后重新全部插入
+DELETE FROM s_instance_template WHERE id = 1001;
+INSERT INTO s_instance_template VALUES 
+(1001,1,2001001,'雪龙之巅',10020901,1,0,0,9876,50101,10101,0,0,0,0,0,'0','雪龙之巅',0,2,52,28,6,5,10);
+仅更新id字段对应数据
+update s_tower_template set trainer_id =21001 where id='20001';
+删除数据
+delete from  where id =1001;
+一、创建库，删除库，使用库
+1.创建数据库：create database 库名;
+
+2.删除数据库：drop database 库名;
+
+3.使用数据库：use 库名;
+
+二、创建数据表
+1.创建表语句：create table 表名（字段名1 字段类型 字段约束，字段2 字段类型 字段约束...);
+
+2.创建与现有表一样字段的新表：create table 表名 like 已有表名;
+
+3.将查询结果创建新表：create table 表名 select * from 现有表 where...(查询语句);
+
+三、查看表结构，查看建表语句，删除表
+1.查看表结构：desc 表名;
+
+2.查看建表语句：show create table 表名;
+
+3.删除表：drop table 表名;
+
+四、修改表结构
+1.对数据表重命名：alter table 表名 rename 新表名;
+
+2.增加字段：alter table 表名 add 字段名 字段类型 字段约束; （PS：可用first/after函数调整字段位置）
+
+3.删除字段：alter table 表名 drop 字段名；
+
+4.修改字段类型及约束：alter table 表名 modify 字段名 新类型 新约束;（PS：如不加新约束，会将建表时的约束清空，主键、外键、唯一约束除外）
+
+5.修改字段名称：alter table 表名 change 字段名 新字段名 新字段类型 新约束条件;
+
+6.修改数据库引擎：alter table 表名 engine=;（PS：主要有InnoDB和MyISAM，InnoDB对经常修改表数据友好，MyISAM对经常查询表友好）
+
+7.增加主键：alter table 表名 add primary key(字段名);
+
+8.删除主键：alter table 表名 drop primary key;
+
+9.增加外键：alter table 表名 add constraint 外键名 foreign kek(字段名) references 主表(主键);
+
+10.删除外键：alter table 表名 drop foreign key 外键名;
+
+11.删除唯一约束：alter table 表名 drop index 字段名;
+
+12.设置自动增长的初始位置：alter table 表名 auto_increment=n;
+
+五、向表中插入数据
+1.向表指定字段插入多条数据：insert into 表名（字段1,字段2...） values(数据1,数据2...),(数据1,数据2...),(数据1,数据2...),(数据1,数据2...);
+
+2.将查询结果插入表：insert into 表名 select 字段名 from 表名（查询语句）；
+
+3.加载外部数据到表：Load data local infile ‘数据路径’Into table 表名 Fields terminated by ‘分隔符’Ignored 1 lines；
+
+六、更新表数据、删除表数据
+1.更改满足条件的字段数据：update 表名 set 字段计算1,字段计算2... where 条件；
+
+2.删除满足条件的数据：delele from 表名 where 条件;
+
+3.删除所有数据：方式一：delete from 表名； 方式二：truncate table 表名； 方式一会逐条进行删除，速度较慢，方式二直接删除，速度快；另外对自增字段，方式一不能重置自增字段的初始位置，方式二可以重置自增字段的其实位置；
+
+七、查找数据
+Select 列名 From 数据表名 Where 查询条件 Group by 分组字段 Having 分组后的约束条件 Order by 排序字段 Limit 限制输出行数。
